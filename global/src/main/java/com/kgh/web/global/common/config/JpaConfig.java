@@ -1,4 +1,4 @@
-package com.kgh.web;
+package com.kgh.web.global.common.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
