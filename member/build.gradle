@@ -8,4 +8,5 @@ repositories {
 
 dependencies {
     implementation project(":global")
+    implementation project(":auth")
 }
