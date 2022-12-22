@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "loginId")
 @DynamicUpdate
 @AllArgsConstructor @NoArgsConstructor
 @Builder

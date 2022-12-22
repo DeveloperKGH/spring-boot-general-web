@@ -40,7 +40,7 @@ public class SecurityConfig {
 			.and()
 				.formLogin().disable()
 				.authorizeRequests()
-				.antMatchers("/health-check").permitAll()
+				.antMatchers("/health-check", "/**/signup", "/**/signin").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
