@@ -8,7 +8,7 @@ public class UnauthorizedException extends BaseException {
 
     @Getter
     public enum CauseCode {
-        INVALID_TOKEN("4010000001", "유효하지 않은 토큰입니다.");
+        INVALID_TOKEN("4010001", "유효하지 않은 토큰입니다.");
 
         private String code;
         private String message;

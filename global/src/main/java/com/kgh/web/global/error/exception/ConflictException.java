@@ -8,7 +8,7 @@ public class ConflictException extends BaseException {
 
     @Getter
     public enum CauseCode {
-        DUPLICATE_LOGIN_ID("4090000001", "아이디가 중복됩니다.");
+        DUPLICATE_LOGIN_ID("4090001", "아이디가 중복됩니다.");
 
         private String code;
         private String message;

@@ -8,7 +8,7 @@ public class NotFoundException extends BaseException {
 
     @Getter
     public enum CauseCode {
-        NOT_FOUND_MEMBER("4040000001", "존재하지 않는 회원입니다.");
+        NOT_FOUND_MEMBER("4040001", "존재하지 않는 회원입니다.");
 
         private String code;
 

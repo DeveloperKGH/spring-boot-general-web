@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -22,21 +23,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    private static String SECRET_KEY = "geniusbeau";
+    private static String SECRET_KEY = "geniusBeau";
 
-    // 토큰 유효시간 30분
+    // 토큰 유효시간 30분 (라이브 환경의 경우 보안을 위해 주기 짧게 설정 필수)
     private final static long TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;
 
     private final UserDetailsService userDetailsService;
 
-    // 객체 초기화, secretKey를 Base64로 인코딩한다.
+    // SECRET_KEY Base64로 인코딩하며 객체 초기화
     @PostConstruct
     protected void init() {
         SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
     }
 
-    // JWT 토큰 생성
-    public static String createToken(String userPk, List<String> roles) {
+    // JWT Access Token 생성
+    public static String generateAccessToken(String userPk, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
         Date now = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
@@ -60,10 +61,13 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-    //TODO : Bearer 로 변경
+    // Request Header 에서 Bearer Token 추출
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     // 토큰의 유효성 + 만료일자 확인

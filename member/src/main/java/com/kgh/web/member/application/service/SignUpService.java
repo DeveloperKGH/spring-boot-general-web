@@ -44,7 +44,7 @@ public class SignUpService {
             throw new NotFoundException(NotFoundException.CauseCode.NOT_FOUND_MEMBER);
         }
 
-        String token = JwtTokenProvider.createToken(dto.getLoginId(), Collections.emptyList());
+        String token = JwtTokenProvider.generateAccessToken(dto.getLoginId(), Collections.emptyList());
         return SignInResponse.builder()
                 .accessToken(token)
                 .build();
