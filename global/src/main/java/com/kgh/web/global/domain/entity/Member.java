@@ -3,21 +3,18 @@ package com.kgh.web.global.domain.entity;
 import com.kgh.web.global.util.EncryptionUtil;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @EqualsAndHashCode(of = "loginId")
 @DynamicUpdate
-@AllArgsConstructor @NoArgsConstructor
-@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Getter
 @Table(name = "member")
 @Entity
-public class Member implements UserDetails {
+public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,38 +25,13 @@ public class Member implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Embedded
+    private MemberAuthorities authorities = new MemberAuthorities();
 
-    public void encryptPassword() {
-        password = EncryptionUtil.encodeBcrypt(password);
+    @Builder
+    public Member(String loginId, String password) {
+        this.loginId = loginId;
+        this.password = EncryptionUtil.encodeBcrypt(password);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

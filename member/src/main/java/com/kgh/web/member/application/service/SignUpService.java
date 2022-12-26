@@ -2,6 +2,8 @@ package com.kgh.web.member.application.service;
 
 import com.kgh.web.auth.common.util.JwtTokenProvider;
 import com.kgh.web.global.domain.entity.Member;
+import com.kgh.web.global.domain.entity.MemberAuthority;
+import com.kgh.web.global.domain.enums.MemberRole;
 import com.kgh.web.global.domain.repository.IMemberRepository;
 import com.kgh.web.global.error.exception.ConflictException;
 import com.kgh.web.global.error.exception.NotFoundException;
@@ -29,7 +31,10 @@ public class SignUpService {
         }
 
         Member member = dto.toEntity();
-        member.encryptPassword();
+        member.getAuthorities().add(MemberAuthority
+                .builder()
+                .member(member).role(MemberRole.MEMBER).build());
+
         memberRepository.save(member);
 
         return member.getId();
