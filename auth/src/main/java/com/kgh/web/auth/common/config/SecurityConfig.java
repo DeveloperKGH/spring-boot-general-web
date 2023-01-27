@@ -2,6 +2,7 @@ package com.kgh.web.auth.common.config;
 
 import com.kgh.web.auth.common.filter.JwtAuthenticationFilter;
 import com.kgh.web.auth.common.util.JwtTokenProvider;
+import com.kgh.web.global.domain.enums.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,8 @@ public class SecurityConfig {
 				.formLogin().disable()
 				.authorizeRequests()
 				.antMatchers("/**/signup", "/**/signin").permitAll()
+				.antMatchers("/**/me").hasAnyAuthority(MemberRole.MEMBER.name(), MemberRole.ADMIN.name())
+				.antMatchers("/**/members/{id}").hasAnyAuthority(MemberRole.ADMIN.name())
 				.anyRequest().authenticated()
 				.and()
 				.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

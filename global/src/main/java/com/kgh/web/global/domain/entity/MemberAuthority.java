@@ -22,7 +22,7 @@ public class MemberAuthority extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne()
     @JoinColumn(name = "member_id")
     private Member member;
 

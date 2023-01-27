@@ -11,6 +11,7 @@ public class MemberResponse {
 	@JsonProperty("id")
 	private Long id;
 
-	@JsonProperty("password")
-	private String password;
+	@JsonProperty("loginId")
+	private String loginId;
+
 }

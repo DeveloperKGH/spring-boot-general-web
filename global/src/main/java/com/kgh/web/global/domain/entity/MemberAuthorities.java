@@ -8,13 +8,15 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(exclude = {"member"})
-@ToString(exclude = {"member"})
+import static javax.persistence.FetchType.EAGER;
+
+@EqualsAndHashCode(exclude = {"authorities"})
+@ToString(exclude = {"authorities"})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Embeddable
 public class MemberAuthorities {
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = EAGER)
     private List<MemberAuthority> authorities = new ArrayList<>();
 
     public void add(MemberAuthority authority) {
